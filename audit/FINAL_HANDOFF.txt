@@ -1,0 +1,40 @@
+FINAL HANDOFF — Building and Environment, gravity_momentum_design
+2026-10-17 (QC missing-gates pass)
+
+This pass: completed the 10 remaining pre-submission gates, repaired defects,
+rebuilt the submission package.
+
+Defects repaired:
+1. Nondeterministic MC seeds (hash((case,v)) salted per process) → deterministic
+   zlib.crc32 seeds in run_analysis.py; full analysis regenerated. Public clean
+   clone now reproduces all results/tables CSVs bit-exactly.
+   Headline updates (generated, not typed): UAI ratio ~2153×, seat failure 16%,
+   slide UTI 7.25 vs 0.69 N·s, workstation 2.47→0.00 N·s, β 9.2/7.2/19.9.
+2. Markdown emphasis *after* / *angular* / *increases* → genuine Word italics
+   (omml.write_rich italic support).
+3. Placeholder citation [Newman1992; ...] → keyed {cite:} system; all 25 refs
+   cited, numbered by first appearance (B&E numbered style). Build fails on
+   undefined/uncited keys.
+4. Missing figure/table citations → Fig 1,2,4,6 and Table 1,2 now cited at
+   first introduction; first-citation order ascending for all objects.
+5. Wrong reference records fixed: DoorForce2015 (DOI pointed to unrelated
+   Measurement paper → Int J Ind Ergon 10.1016/j.ergon.2015.05.010),
+   SitStand1999 (journal J Biomech → J Neurophysiol), Sobol2001 + DSMHabitat2023
+   DOIs added.
+6. Typed transition/regime wording → computed from data: "0.12–0.37" range and
+   the "~0.4 g" claims now generated (max conventional Γ_T crossing = 0.37);
+   lateral-slide Γ_T=1 crossing corrected ~0.4 → ~0.20 g.
+
+Rebuild chain (frozen analysis code, post-seed-fix):
+  python scripts/run_analysis.py --mc 2000   (~7.5 min, deterministic)
+  python scripts/make_stats.py && make_figures.py && make_manuscript.py
+  python scripts/make_submission.py
+Tests: 11/11 pass.
+
+Gate report: audit/FINAL_QC_REPORT.md — all gates PASS (reproduction gate PASS
+WITH CONDITION: deterministic fix propagates to the public repo when this PR
+merges via sync-to-repos).
+
+Packages:
+  submission/BUILDING_ENVIRONMENT_submission_FINAL.zip (13 files)
+  submission/BUILDING_ENVIRONMENT_FINAL_AUDIT_EVIDENCE.zip (audit docs)
